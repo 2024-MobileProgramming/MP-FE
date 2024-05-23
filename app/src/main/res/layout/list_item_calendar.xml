@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|top">
+
+    <View
+        android:id="@+id/viewDaySquare"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_calendar_day" />
+</LinearLayout>

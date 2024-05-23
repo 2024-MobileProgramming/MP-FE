@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GaBit"
         tools:targetApi="31">
+        <activity android:name=".Mission_Calendar"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
