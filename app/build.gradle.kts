@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
 }
@@ -14,6 +16,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "KAKAO_API_KEY", gradleLocalProperties(rootDir).getProperty("KAKAO_API_KEY"))
+        addManifestPlaceholders(mapOf("KAKAO_REDIRECT_URI" to gradleLocalProperties(rootDir).getProperty("KAKAO_REDIRECT_URI")))
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -44,4 +52,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("androidx.navigation:navigation-fragment:2.3.5")
     implementation ("androidx.navigation:navigation-ui:2.3.5")
+    implementation ("com.kakao.sdk:v2-all:2.20.1")
+    implementation ("com.kakao.sdk:v2-user:2.20.1")
 }
