@@ -9,7 +9,7 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // 카카오 SDK 초기화
-        String kakaoAppKey = getString(Integer.parseInt(BuildConfig.KAKAO_API_KEY));
+        String kakaoAppKey = BuildConfig.KAKAO_API_KEY;
         KakaoSdk.init(this, kakaoAppKey);
         }
 }
