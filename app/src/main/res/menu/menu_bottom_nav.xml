@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_mission"
+        android:title="@string/mission"
+        android:icon="@drawable/mission"
+        />
+    <item
+        android:id="@+id/fragment_friends"
+        android:title="@string/friends"
+        android:icon="@drawable/friends" />
+    <item
+        android:id="@+id/fragment_calendar"
+        android:title="@string/calendar"
+        android:icon="@drawable/calendar" />
+    <item
+        android:id="@+id/fragment_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/profile" />
+</menu>

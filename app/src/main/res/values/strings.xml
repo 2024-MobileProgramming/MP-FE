@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GaBit</string>
+    <string name="friends">Friends</string>
+    <string name="calendar">Calendar</string>
+    <string name="profile">Profile</string>
+    <string name="mission">mission</string>
 </resources>
