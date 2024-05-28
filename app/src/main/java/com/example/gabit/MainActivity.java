@@ -1,13 +1,15 @@
 package com.example.gabit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.example.gabit.databinding.ActivityMainBinding;
-import com.kakao.sdk.common.KakaoSdk;
+import com.google.android.material.navigation.NavigationBarView;
 import com.kakao.sdk.common.util.Utility;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,11 +25,34 @@ public class MainActivity extends AppCompatActivity {
         String keyHash = Utility.INSTANCE.getKeyHash(this);
         Log.e("Key", "keyHash: " + keyHash);
 
+        binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
 
-//        if (savedInstanceState == null) {
-//            binding.bottomNavigationView.selectedItemdId = R.id.fragment_mission
-//        }
+                if (item.getItemId() == R.id.fragment_mission) {
+                    selectedFragment = new MissionListFragment();
+                } else if (item.getItemId() == R.id.fragment_calendar) {
+                    selectedFragment = new CalendarFragment();
+                } else if (item.getItemId() == R.id.fragment_friends) {
+                    selectedFragment = new FriendsFragment();
+                } else if (item.getItemId() == R.id.fragment_profile) {
+                    selectedFragment = new ProfileFragment();
+                }
+
+                if (selectedFragment != null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, selectedFragment)
+                            .commit();
+                }
+                return true;
+            }
+        });
+
+        if (savedInstanceState == null) {
+            binding.bottomNavigationView.setSelectedItemId(R.id.fragment_mission);
+        }
     }
 
 
