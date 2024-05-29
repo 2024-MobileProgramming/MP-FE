@@ -1,15 +1,11 @@
 package com.example.gabit;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +43,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     }
 
     @Override
-    public void onBindViewHolder(CalendarItemHolder holder, int position) { //사각형을 클릭했을 때 바꿀 수 있는 곳.
+    public void onBindViewHolder(CalendarItemHolder holder, int position) {
         int h = calendarLayout.getHeight() / 6;
         holder.itemView.getLayoutParams().height = h;
 
@@ -65,6 +61,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     public void setItemClick(ItemClick itemClick) {
         this.itemClick = itemClick;
+    }
+
+    public void setDate(Date date) {
+        this.date = date; // 선택된 날짜로 date 필드를 업데이트합니다.
+        this.furangCalendar = new FurangCalendar(date); // 새로운 날짜로 FurangCalendar 객체를 업데이트합니다.
+        this.furangCalendar.initBaseCalendar(); // 캘린더 기본 설정을 초기화합니다.
+        this.dataList = furangCalendar.getDateList(); // 새로운 날짜 리스트를 가져옵니다.
+        notifyDataSetChanged(); // 데이터가 변경되었음을 알리고, RecyclerView를 다시 그립니다.
     }
 
     public class CalendarItemHolder extends RecyclerView.ViewHolder {

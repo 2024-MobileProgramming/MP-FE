@@ -34,8 +34,8 @@ public class FurangCalendar {
         prevMonth.add(Calendar.MONTH, -1);
         int maxDayOfPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH); // 이전 달의 마지막 날
 
-        for (int i = 1; i <= firstDayOfMonth; i++) {
-            dateList.add(maxDayOfPrevMonth - firstDayOfMonth + i);
+        for (int i = 0; i < firstDayOfMonth; i++) { // 수정: i <= firstDayOfMonth -> i < firstDayOfMonth
+            dateList.add(maxDayOfPrevMonth - firstDayOfMonth + i + 1); // 수정: i -> i + 1
         }
         prevTail = firstDayOfMonth;
 
