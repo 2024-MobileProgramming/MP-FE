@@ -54,7 +54,8 @@ public class CalendarFragment extends Fragment {
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, viewModel.yearList.getValue());
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerYear.setAdapter(yearAdapter);
-        binding.spinnerYear.setSelection(viewModel.yearList.getValue().indexOf(viewModel.selectedYearPosition.getValue())); // 현재 연도 위치로 설정
+        int yearIndex = viewModel.yearList.getValue().indexOf(String.valueOf(currentYear));
+        binding.spinnerYear.setSelection(yearIndex); // 현재 연도 위치로 설정
 
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, viewModel.monthList.getValue());
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -66,7 +67,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 viewModel.selectedYearPosition.setValue(Integer.valueOf(viewModel.yearList.getValue().get(position)));
-                viewModel.updateCalendar();
+                viewModel.updateCalendar_model();
             }
 
             @Override
@@ -78,7 +79,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 viewModel.selectedMonthPosition.setValue(position + 1);
-                viewModel.updateCalendar();
+                viewModel.updateCalendar_model();
             }
 
             @Override

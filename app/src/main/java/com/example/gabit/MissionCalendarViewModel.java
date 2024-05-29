@@ -28,7 +28,7 @@ public class MissionCalendarViewModel extends ViewModel {
         selectedMonthPosition.setValue(currentMonth); // 0부터 시작하므로 현재 월 그대로 사용
     }
 
-    public void updateCalendar() {
+    public void updateCalendar_model() {
         // 선택된 연도와 월을 사용하여 달력을 업데이트
         String selectedYear = getSelectedYear();
         String selectedMonth = getSelectedMonth();
