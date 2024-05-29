@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">GaBit</string>
+    <string name="friends">Friends</string>
+    <string name="calendar">Calendar</string>
+    <string name="profile">Profile</string>
+    <string name="mission">mission</string>
+    <string name="mission_icon_description">Mission Icon</string>
+    <string name="mission_status_description">Mission Status Icon</string>
+    <string name="mission_list">Mission List</string>
+    <string name="friends_icon_description">Friends Profile Icon</string>
+    <string name="friends_list">Friends List</string>
+    <string name="kakao_login_btn_description">Kakao Login Button</string>
 </resources>
