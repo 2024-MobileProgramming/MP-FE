@@ -1,6 +1,7 @@
 package com.example.gabit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,18 +63,23 @@ public class MissionListFragment extends Fragment {
     }
 
     private void populateGridWithMissions(List<Mission> missions) {
+        if (missions == null || missions.isEmpty()) {
+            Log.e("MissionListFragment", "No missions found or mission list is null.");
+            return;
+        }
+
         LayoutInflater inflater = LayoutInflater.from(getContext());
         missionListLayout.removeAllViews();
 
         for (Mission mission : missions) {
             View missionView = inflater.inflate(R.layout.mission_item, missionListLayout, false);
 
-            TextView tvTitle = missionView.findViewById(R.id.MissionItemTitle);
-            TextView tvDescription = missionView.findViewById(R.id.MissionItemDescription);
+            TextView missionTitle = missionView.findViewById(R.id.MissionItemTitle);
+            TextView missionDescription = missionView.findViewById(R.id.MissionItemDescription);
             ImageView ivStatus = missionView.findViewById(R.id.Mission_Status);
 
-            tvTitle.setText(mission.getMissionTitle());
-            tvDescription.setText(mission.getMissionShortDescription());
+            missionTitle.setText(mission.getMissionTitle());
+            missionDescription.setText(mission.getMissionShortDescription());
 
             Log.d("MissonListFragment", "Mission Title: " + mission.getMissionTitle());
             Log.d("MissionListFragment", "Mission Description: " + mission.getMissionShortDescription());
@@ -83,6 +89,13 @@ public class MissionListFragment extends Fragment {
             } else {
                 ivStatus.setVisibility(View.GONE);
             }
+
+            missionView.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), OneMissionActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("missionId", mission.getMissionId());
+                startActivity(intent);
+            });
 
             missionListLayout.addView(missionView);
         }

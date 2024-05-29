@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +46,27 @@ public class MissionService {
         });
     }
 
+    public void getOneMission(String ownerId, int missionId, String viewerId, MissionDetailCallback callback) {
+        apiService.getOneMission(ownerId, missionId, viewerId).enqueue(new Callback<OneMissionActivity.MissionDetailResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<OneMissionActivity.MissionDetailResponse> call, @NonNull Response<OneMissionActivity.MissionDetailResponse> response) {
+                Log.e("OneMissionService", "Response : " + response);
+                Log.e("OneMissionService", "Response is successful? : " + response.isSuccessful());
+                Log.e("OneMissionService", "Response body : " + response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess((OneMissionActivity.MissionDetail) response.body().getData());
+                } else {
+                    callback.onError("Failed to get mission details");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<OneMissionActivity.MissionDetailResponse> call, @NonNull Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
     public void verificateMission(VerificationRequest request, final ApiCallback callback) {
         Call<ApiResponse> call = apiService.verificateMission(request);
         call.enqueue(new Callback<ApiResponse>() {
@@ -61,25 +81,6 @@ public class MissionService {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                callback.onError("API call failed: " + t.getMessage());
-            }
-        });
-    }
-
-    public void getMemberList(String userId, final MemberListCallback callback) {
-        Call<MemberListResponse> call = apiService.getMemberList(userId);
-        call.enqueue(new Callback<MemberListResponse>() {
-            @Override
-            public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getData());
-                } else {
-                    callback.onError("Response unsuccessful or empty");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MemberListResponse> call, Throwable t) {
                 callback.onError("API call failed: " + t.getMessage());
             }
         });
@@ -128,13 +129,13 @@ public class MissionService {
         void onError(String errorMessage);
     }
 
-    public interface ApiCallback {
-        void onSuccess();
+    public interface MissionDetailCallback {
+        void onSuccess(OneMissionActivity.MissionDetail missionDetail);
         void onError(String errorMessage);
     }
 
-    public interface MemberListCallback {
-        void onSuccess(List<MemberListResponse.Member> members);
+    public interface ApiCallback {
+        void onSuccess();
         void onError(String errorMessage);
     }
 
