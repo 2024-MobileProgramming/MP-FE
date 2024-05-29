@@ -9,4 +9,5 @@
     <string name="mission_list">Mission List</string>
     <string name="friends_icon_description">Friends Profile Icon</string>
     <string name="friends_list">Friends List</string>
+    <string name="kakao_login_btn_description">Kakao Login Button</string>
 </resources>

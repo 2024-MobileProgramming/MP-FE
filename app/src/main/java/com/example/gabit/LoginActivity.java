@@ -16,6 +16,8 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String PREF_NAME = "USerPrefs";
+    private static final String KEY_USER_ID = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
