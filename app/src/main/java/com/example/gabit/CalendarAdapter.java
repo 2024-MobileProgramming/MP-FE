@@ -44,11 +44,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     @Override
     public void onBindViewHolder(CalendarItemHolder holder, int position) {
-        int h = calendarLayout.getHeight() / 6;
+        int h = calendarLayout.getHeight() / 7;
         holder.itemView.getLayoutParams().height = h;
 
-        // context 대신 holder.itemView.getContext()를 사용합니다.
-        holder.bind(dataList.get(position), position, holder.itemView.getContext());
+        // dataList의 Integer 값을 Date로 변환하는 로직이 필요합니다.
+        // 여기서는 예시로, 단순히 현재 날짜로 설정합니다. 실제 로직은 FurangCalendar의 구현에 따라 다를 것입니다.
+        Date dateData = new Date();
+
+        holder.bind(dateData, position, holder.itemView.getContext());
         if (itemClick != null) {
             holder.itemView.setOnClickListener(v -> itemClick.onClick(v, position));
         }
@@ -80,16 +83,17 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             daySquare = itemView.findViewById(R.id.viewDaySquare);
         }
 
-        public void bind(int data, int position, Context context) {
+        public void bind(Date dateData, int position, Context context) {
             int firstDateIndex = furangCalendar.getPrevTail();
             int lastDateIndex = dataList.size() - furangCalendar.getNextHead() - 1;
 
-            // 여기서 사각형 뷰의 속성을 변경할 수 있습니다.
-            daySquare.setVisibility(View.VISIBLE);
+            // 현재 날짜와 비교하기 위한 형식 변경
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd", Locale.KOREA);
+            String currentDateString = dateFormat.format(date);
+            String itemDateString = dateFormat.format(dateData);
 
-            String dateString = new SimpleDateFormat("dd", Locale.KOREA).format(date);
-            int dateInt = Integer.parseInt(dateString);
-            if (dataList.get(position) == dateInt) {
+            // 날짜가 같은지 확인
+            if (currentDateString.equals(itemDateString)) {
                 daySquare.setBackgroundResource(R.drawable.shape_calendar_day_selected); // 선택된 날짜의 배경 변경
             } else {
                 daySquare.setBackgroundResource(R.drawable.shape_calendar_day); // 기본 배경

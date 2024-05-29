@@ -7,8 +7,12 @@ import java.util.Date;
 public class FurangCalendar {
     private ArrayList<Integer> dateList;
     private Calendar calendar;
-    private int prevTail;
-    private int nextHead;
+    private static final int DAYS_OF_WEEK = 7;
+    private static final int LOW_OF_CALENDAR = 6;
+
+    private int prevTail = 0;
+    private int nextHead = 0;
+    private int currentMaxDate = 0;
 
     public FurangCalendar(Date date) {
         this.calendar = Calendar.getInstance();
@@ -22,34 +26,49 @@ public class FurangCalendar {
 
     private void makeMonthDateList() {
         dateList.clear();
+        calendar.set(Calendar.DATE, 1);
 
-        // 현재 달의 첫 번째 날로 설정
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        currentMaxDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        int firstDayOfMonth = calendar.get(Calendar.DAY_OF_WEEK) - 1; // 첫 번째 날의 요일
-        int maxDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 현재 달의 마지막 날
-
-        // 이전 달의 날짜 추가
-        Calendar prevMonth = (Calendar) calendar.clone();
-        prevMonth.add(Calendar.MONTH, -1);
-        int maxDayOfPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH); // 이전 달의 마지막 날
-
-        for (int i = 0; i < firstDayOfMonth; i++) { // 수정: i <= firstDayOfMonth -> i < firstDayOfMonth
-            dateList.add(maxDayOfPrevMonth - firstDayOfMonth + i + 1); // 수정: i -> i + 1
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int targetStartDay = Calendar.SATURDAY; // 예를 들어, 달력이 토요일에 시작해야 한다고 가정
+        prevTail = firstDayOfWeek - targetStartDay;
+        if (prevTail < 0) {
+            prevTail += DAYS_OF_WEEK;
         }
-        prevTail = firstDayOfMonth;
 
-        // 현재 달의 날짜 추가
-        for (int i = 1; i <= maxDayOfMonth; i++) {
+        makePrevTail((Calendar) calendar.clone());
+        makeCurrentMonth(calendar);
+
+        nextHead = LOW_OF_CALENDAR * DAYS_OF_WEEK - (prevTail + currentMaxDate);
+        if (nextHead > DAYS_OF_WEEK) {
+            nextHead -= DAYS_OF_WEEK;
+        }
+        makeNextHead();
+    }
+
+    private void makeCurrentMonth(Calendar calendar) {
+        int maxDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = 1; i <= maxDate; i++) {
             dateList.add(i);
         }
+    }
 
-        // 다음 달의 날짜 추가
-        int nextMonthDay = 1;
-        while (dateList.size() % 7 != 0) {
-            dateList.add(nextMonthDay++);
+    private void makePrevTail(Calendar calendar) {
+        calendar.add(Calendar.MONTH, -1);
+        int maxDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int startDate = maxDate - prevTail + 1;
+
+        for (int i = startDate; i <= maxDate; i++) {
+            dateList.add(i);
         }
-        nextHead = nextMonthDay - 1;
+    }
+
+    private void makeNextHead() {
+        int date = 1;
+        for (int i = 1; i <= nextHead; i++) {
+            dateList.add(date++);
+        }
     }
 
     public ArrayList<Integer> getDateList() {
@@ -62,5 +81,9 @@ public class FurangCalendar {
 
     public int getNextHead() {
         return nextHead;
+    }
+
+    public int getCurrentMaxDate() {
+        return currentMaxDate;
     }
 }
