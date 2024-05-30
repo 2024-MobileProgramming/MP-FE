@@ -21,6 +21,7 @@ public class MissionListFragment extends Fragment {
     private LinearLayout missionListLayout;
     private TextView tvUserName;
     private String userId;
+    private String userName;
     private MissionController missionController;
 
     public void setMissionController(MissionController missionController) {
@@ -34,9 +35,16 @@ public class MissionListFragment extends Fragment {
         missionListLayout = view.findViewById(R.id.MissionList);
         tvUserName = view.findViewById(R.id.tvUserName);
 
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getString("userId", "");
-        String userName = sharedPreferences.getString("userName", "");
+        if (getArguments() != null) {
+            userId = getArguments().getString("userId", "");
+            userName = getArguments().getString("userName", "");
+            Log.d("Get Arguments in MissionFragment", "UserId = " + userId + " / UserName = " + userName);
+        } else {
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            userId = sharedPreferences.getString("userId", "");
+            userName = sharedPreferences.getString("userName", "");
+            Log.d("SharedPreferences in MissionFragment", "UserId = " + userId + " / UserName = " + userName);
+        }
 
         tvUserName.setText(userName);
 
