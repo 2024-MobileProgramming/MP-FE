@@ -10,4 +10,38 @@
     <string name="friends_icon_description">Friends Profile Icon</string>
     <string name="friends_list">Friends List</string>
     <string name="kakao_login_btn_description">Kakao Login Button</string>
+    <string-array name = "spinner_year">
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+    </string-array>
+    <string-array name = "spinner_month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <style name="TextViewStyle">
+        <item name="android:textColor">#FF0000</item> <!-- 예시로 빨간색 텍스트 색상 -->
+        <item name="android:textSize">16sp</item> <!-- 예시로 텍스트 크기 16sp -->
+        <item name="android:fontFamily">sans-serif</item> <!-- 예시로 폰트 패밀리 설정 -->
+    </style>
+
+    <style name="LightColorTextViewStyle">
+        <item name="android:textColor">#B0BEC5</item> <!-- 원하는 색상으로 변경 -->
+        <item name="android:textSize">14sp</item> <!-- 원하는 텍스트 크기로 변경 -->
+    </style>
 </resources>
