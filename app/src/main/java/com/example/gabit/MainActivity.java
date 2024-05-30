@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.fragment_calendar) {
                     selectedFragment = new CalendarFragment();
                 } else if (item.getItemId() == R.id.fragment_friends) {
-                    selectedFragment = new MemberFragment();
+                    selectedFragment = new FriendsFragment();
                 } else if (item.getItemId() == R.id.fragment_profile) {
                     selectedFragment = new ProfileFragment();
                 }
