@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/calendar_layout"
-        android:background="@color/back_ground_light">
+        android:id="@+id/calendar_layout">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -28,6 +27,7 @@
                 android:layout_weight="0.5"
                 android:padding="16dp"
                 android:minHeight="48dp"
+                style="@style/SpinnerTextStyle"
                 android:onItemSelected="@{(parent, view, pos, id) -> viewModel.setSelectedYearPosition(pos)}" />
 
             <Spinner
@@ -37,6 +37,7 @@
                 android:layout_weight="0.5"
                 android:padding="16dp"
                 android:minHeight="48dp"
+                style="@style/SpinnerTextStyle"
                 android:onItemSelected="@{(parent, view, pos, id) -> viewModel.setSelectedMonthPosition(pos)}" />
         </LinearLayout>
 

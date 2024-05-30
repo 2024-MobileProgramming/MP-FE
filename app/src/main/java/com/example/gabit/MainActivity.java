@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.fragment_mission) {
                     selectedFragment = new MissionListFragment();
                 } else if (item.getItemId() == R.id.fragment_calendar) {
-                    selectedFragment = new CalendarFragment();
+                    selectedFragment = new Mission_Calendar();
                 } else if (item.getItemId() == R.id.fragment_friends) {
                     selectedFragment = new FriendsFragment();
                 } else if (item.getItemId() == R.id.fragment_profile) {
