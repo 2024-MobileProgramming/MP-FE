@@ -23,7 +23,7 @@ public class ApiClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BuildConfig.POSTMAN_SERVER_BASE_URL)
+                    .baseUrl(BuildConfig.SERVER_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

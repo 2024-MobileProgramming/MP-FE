@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString(KEY_USER_ID, null);
-        String nickname = savedInstanceState.getString(KEY_USER_NICKNAME, null);
+        String nickname = sharedPreferences.getString(KEY_USER_NICKNAME, null);
 
         if (userId != null && nickname != null) {
             navigateToMainActivity();
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void sendUserInfoToBackend(String nickname, String email) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.POSTMAN_SERVER_BASE_URL)
+                .baseUrl(BuildConfig.SERVER_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -43,7 +43,7 @@ public class MissionListFragment extends Fragment {
         if (missionController == null) {
             missionController = new MissionController(new MissionService());
         }
-        fetchMissions("1");
+        fetchMissions(userId);
 
         return view;
     }

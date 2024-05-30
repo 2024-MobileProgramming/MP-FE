@@ -38,7 +38,7 @@ public class OneMissionActivity extends AppCompatActivity {
         viewerId = getIntent().getStringExtra("userId");
         missionId = getIntent().getIntExtra("missionId", -1);
 
-        fetchMissionDetails("1", missionId, "1");
+        fetchMissionDetails(userId, missionId, viewerId);
     }
 
     private void fetchMissionDetails(String userId, int missionId, String viewerId) {
