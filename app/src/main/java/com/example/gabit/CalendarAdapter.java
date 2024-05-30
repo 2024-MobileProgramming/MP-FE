@@ -16,7 +16,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     private ArrayList<Integer> dataList;
     private FurangCalendar furangCalendar;
     private LinearLayout calendarLayout;
-    private Date date;
+    private Integer selectedYear;
+    private Integer selectedMonth;
 
     private boolean[] activityCompleted; // 활동 완료 여부 배열
 
@@ -27,10 +28,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     private ItemClick itemClick;
 
     // Context 파라미터를 제거하고, calendarLayout과 date만 받습니다.
-    public CalendarAdapter(LinearLayout calendarLayout, Date date) {
+    public CalendarAdapter(LinearLayout calendarLayout, int selectedYear, int selectedMonth) {
         this.calendarLayout = calendarLayout;
-        this.date = date;
-        this.furangCalendar = new FurangCalendar(date);
+        this.selectedYear = selectedYear;
+        this.selectedMonth = selectedMonth;
+        this.furangCalendar = new FurangCalendar(this.selectedYear, this.selectedMonth);
         this.furangCalendar.initBaseCalendar();
         this.dataList = furangCalendar.getDateList();
     }
@@ -48,8 +50,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         holder.itemView.getLayoutParams().height = h;
 
         // dataList의 Integer 값을 Date로 변환하는 로직이 필요합니다.
-        // 여기서는 예시로, 단순히 현재 날짜로 설정합니다. 실제 로직은 FurangCalendar의 구현에 따라 다를 것입니다.
-        Date dateData = new Date();
+        // FurangCalendar의 getDateList()가 날짜 데이터를 Integer로 반환하는 경우를 가정합니다.
+        int day = dataList.get(position);
+        Date dateData = furangCalendar.convertToDate(day); // FurangCalendar에 이 메서드가 있어야 합니다.
 
         holder.bind(dateData, position, holder.itemView.getContext());
         if (itemClick != null) {
@@ -66,11 +69,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.itemClick = itemClick;
     }
 
-    public void setDate(Date date) {
-        this.date = date; // 선택된 날짜로 date 필드를 업데이트합니다.
-        this.furangCalendar = new FurangCalendar(date); // 새로운 날짜로 FurangCalendar 객체를 업데이트합니다.
-        this.furangCalendar.initBaseCalendar(); // 캘린더 기본 설정을 초기화합니다.
-        this.dataList = furangCalendar.getDateList(); // 새로운 날짜 리스트를 가져옵니다.
+    public void setDate(int selectedYear, int selectedMonth) {
+        this.selectedYear = selectedYear;
+        this.selectedMonth = selectedMonth;
+        this.furangCalendar = new FurangCalendar(selectedYear, selectedMonth);
+        this.furangCalendar.initBaseCalendar();
+        this.dataList = furangCalendar.getDateList(); // dateList를 새로 초기화합니다.
         notifyDataSetChanged(); // 데이터가 변경되었음을 알리고, RecyclerView를 다시 그립니다.
     }
 
@@ -89,7 +93,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
             // 현재 날짜와 비교하기 위한 형식 변경
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd", Locale.KOREA);
-            String currentDateString = dateFormat.format(date);
+            String currentDateString = dateFormat.format(new Date()); // 현재 날짜를 가져옵니다.
             String itemDateString = dateFormat.format(dateData);
 
             // 날짜가 같은지 확인
