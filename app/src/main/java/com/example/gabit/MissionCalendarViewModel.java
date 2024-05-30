@@ -1,5 +1,7 @@
 package com.example.gabit;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -25,7 +27,7 @@ public class MissionCalendarViewModel extends ViewModel {
         yearList.setValue(years);
         monthList.setValue(months);
         selectedYearPosition.setValue(years.indexOf(String.valueOf(currentYear)));
-        selectedMonthPosition.setValue(currentMonth); // 0부터 시작하므로 현재 월 그대로 사용
+        selectedMonthPosition.setValue(months.indexOf(String.valueOf(currentMonth))) ; // 0부터 시작하므로 현재 월 그대로 사용
     }
 
     public void updateCalendar_model() {
@@ -61,6 +63,7 @@ public class MissionCalendarViewModel extends ViewModel {
     }
 
     public void setSelectedMonthPosition(int position) {
-        selectedMonthPosition.setValue(position);
+        selectedMonthPosition.setValue(position+2);
+        Log.d("Position : ", String.valueOf(position));
     }
 }

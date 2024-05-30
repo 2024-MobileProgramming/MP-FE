@@ -1,5 +1,7 @@
 package com.example.gabit;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,13 +12,19 @@ public class FurangCalendar {
     private static final int DAYS_OF_WEEK = 7;
     private static final int LOW_OF_CALENDAR = 6;
 
+    private int selectedYear;
+    private int selectedMonth;
     private int prevTail = 0;
     private int nextHead = 0;
     private int currentMaxDate = 0;
 
-    public FurangCalendar(Date date) {
+    public FurangCalendar(int selectedYear, int selectedMonth) {
         this.calendar = Calendar.getInstance();
-        this.calendar.setTime(date);
+        this.selectedYear = selectedYear;
+        this.selectedMonth = selectedMonth;
+        this.calendar.set(Calendar.YEAR, selectedYear);
+        this.calendar.set(Calendar.MONTH, selectedMonth);
+        Log.d("currentmonth2 : ", String.valueOf(selectedMonth));
         this.dateList = new ArrayList<>();
     }
 
@@ -30,8 +38,9 @@ public class FurangCalendar {
 
         currentMaxDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
+        //Log.d("Max Date", String.valueOf(currentMaxDate));
         int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int targetStartDay = Calendar.SATURDAY; // 예를 들어, 달력이 토요일에 시작해야 한다고 가정
+        int targetStartDay = Calendar.SATURDAY;
         prevTail = firstDayOfWeek - targetStartDay;
         if (prevTail < 0) {
             prevTail += DAYS_OF_WEEK;
@@ -41,8 +50,8 @@ public class FurangCalendar {
         makeCurrentMonth(calendar);
 
         nextHead = LOW_OF_CALENDAR * DAYS_OF_WEEK - (prevTail + currentMaxDate);
-        if (nextHead > DAYS_OF_WEEK) {
-            nextHead -= DAYS_OF_WEEK;
+        if (nextHead >= DAYS_OF_WEEK) {
+            nextHead = nextHead % DAYS_OF_WEEK; // 7로 나눈 나머지를 사용
         }
         makeNextHead();
     }
@@ -85,5 +94,10 @@ public class FurangCalendar {
 
     public int getCurrentMaxDate() {
         return currentMaxDate;
+    }
+
+    public Date convertToDate(int day) {
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        return calendar.getTime();
     }
 }
