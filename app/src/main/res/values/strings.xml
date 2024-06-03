@@ -10,6 +10,9 @@
     <string name="friends_icon_description">Friends Profile Icon</string>
     <string name="friends_list">Friends List</string>
     <string name="kakao_login_btn_description">Kakao Login Button</string>
+    <string name="camera_button_desc">camera</string>
+    <string name="back_button_desc">back_button</string>
+    <string name="linkTextView"><u>캠페인 보러가기</u></string>
     <string-array name = "spinner_year">
         <item>2020</item>
         <item>2021</item>

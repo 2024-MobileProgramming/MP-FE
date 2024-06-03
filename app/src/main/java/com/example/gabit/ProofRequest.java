@@ -12,6 +12,13 @@ public class ProofRequest {
     @SerializedName("image")
     private String image;
 
+    // 생성자 추가
+    public ProofRequest(int userId, int missionId, String image) {
+        this.userId = userId;
+        this.missionId = missionId;
+        this.image = image;
+    }
+
     // Getters and setters
     public int getUserId() {
         return userId;

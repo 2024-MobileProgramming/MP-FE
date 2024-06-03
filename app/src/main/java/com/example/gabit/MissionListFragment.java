@@ -100,7 +100,7 @@ public class MissionListFragment extends Fragment {
 
             missionView.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), OneMissionActivity.class);
-                intent.putExtra("userId", userId);
+                intent.putExtra("ownerId", userId);
                 intent.putExtra("missionId", mission.getMissionId());
                 startActivity(intent);
             });

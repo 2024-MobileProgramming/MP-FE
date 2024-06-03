@@ -12,7 +12,12 @@ public class VerificationRequest {
     @SerializedName("missionId")
     private int missionId;
 
-    // Getters and setters
+    public VerificationRequest(int verificaterUserId, int verificatedUserId, int missionId) {
+        this.verificaterUserId = verificaterUserId;
+        this.verificatedUserId = verificatedUserId;
+        this.missionId = missionId;
+    }
+
     public int getVerificaterUserId() {
         return verificaterUserId;
     }
