@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarItemHolder> {
@@ -18,6 +21,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     private LinearLayout calendarLayout;
     private Integer selectedYear;
     private Integer selectedMonth;
+
+    private List<Integer> missionData; // 미션 성공 횟수 데이터
 
     private boolean[] activityCompleted; // 활동 완료 여부 배열
 
@@ -35,6 +40,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.furangCalendar = new FurangCalendar(this.selectedYear, this.selectedMonth);
         this.furangCalendar.initBaseCalendar();
         this.dataList = furangCalendar.getDateList();
+        this.missionData = new ArrayList<>(); // 미션 성공 횟수 데이터 초기화
     }
 
     @Override
@@ -76,6 +82,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.furangCalendar.initBaseCalendar();
         this.dataList = furangCalendar.getDateList(); // dateList를 새로 초기화합니다.
         notifyDataSetChanged(); // 데이터가 변경되었음을 알리고, RecyclerView를 다시 그립니다.
+    }
+
+    public void setMissionData(Object missionData) {
+        this.missionData = (List<Integer>) missionData;
     }
 
     public class CalendarItemHolder extends RecyclerView.ViewHolder {

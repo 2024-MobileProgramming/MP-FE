@@ -17,8 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gabit.CalendarAdapter;
-import com.example.gabit.MissionCalendarViewModel;
 import com.example.gabit.databinding.CalendarBinding;
 
 import java.util.Calendar;
@@ -33,12 +31,10 @@ public class CalendarFragment extends Fragment {
 
     private MissionCalendarViewModel viewModel;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        int count = 0;
         // DataBinding과 ViewModel 설정
         CalendarBinding binding = DataBindingUtil.inflate(inflater, R.layout.calendar, container, false);
         viewModel = new ViewModelProvider(this).get(MissionCalendarViewModel.class);
@@ -48,28 +44,29 @@ public class CalendarFragment extends Fragment {
         // 현재 날짜로 초기화
         Calendar today = Calendar.getInstance();
         int currentYear = today.get(Calendar.YEAR);
-        int currentMonth = today.get(Calendar.MONTH)+1; // Calendar.MONTH는 0부터 시작하므로 +1
+        int currentMonth = today.get(Calendar.MONTH) + 1; // Calendar.MONTH는 0부터 시작하므로 +1
         Log.d("current Month", String.valueOf(currentMonth));
 
         // Spinner 설정
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, viewModel.yearList.getValue());
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, viewModel.getYearList().getValue());
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerYear.setAdapter(yearAdapter);
-        int yearIndex = viewModel.yearList.getValue().indexOf(String.valueOf(currentYear));
+        int yearIndex = viewModel.getYearList().getValue().indexOf(String.valueOf(currentYear));
         binding.spinnerYear.setSelection(yearIndex); // 현재 연도 위치로 설정
 
-        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, viewModel.monthList.getValue());
+        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, viewModel.getMonthList().getValue());
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerMonth.setAdapter(monthAdapter);
-        binding.spinnerMonth.setSelection(currentMonth-1); // 현재 월 위치로 설정
+        binding.spinnerMonth.setSelection(currentMonth - 1); // 현재 월 위치로 설정
 
-        viewModel.selectedYearPosition.setValue(currentYear);
-        viewModel.selectedMonthPosition.setValue(currentMonth);
+        viewModel.getSelectedYearPosition().getValue();
+        viewModel.getSelectedMonthPosition().getValue();
+
         // Spinner 이벤트 리스너 설정
         binding.spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.selectedYearPosition.setValue(Integer.valueOf(viewModel.yearList.getValue().get(position)));
+                viewModel.getSelectedYearPosition().getValue();
                 viewModel.updateCalendar_model();
             }
 
@@ -81,7 +78,7 @@ public class CalendarFragment extends Fragment {
         binding.spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.selectedMonthPosition.setValue(position + 1);
+                viewModel.getSelectedMonthPosition().getValue();
                 viewModel.updateCalendar_model();
             }
 
@@ -95,12 +92,16 @@ public class CalendarFragment extends Fragment {
         initView(view, viewModel); // ViewModel을 initView에 전달합니다.
 
         // LiveData 관찰 설정
-        viewModel.selectedYearPosition.observe(getViewLifecycleOwner(), year -> updateCalendar(viewModel));
-        viewModel.selectedMonthPosition.observe(getViewLifecycleOwner(), month -> updateCalendar(viewModel));
+        viewModel.getSelectedYearPosition().observe(getViewLifecycleOwner(), year -> updateCalendar(viewModel));
+        viewModel.getSelectedMonthPosition().observe(getViewLifecycleOwner(), month -> updateCalendar(viewModel));
 
-        // Setting the initial values for selectedYearPosition and selectedMonthPosition
-        // viewModel.selectedYearPosition.setValue(currentYear);
-        //viewModel.selectedMonthPosition.setValue(currentMonth);
+        // ViewModel에서 데이터를 가져와서 CalendarAdapter에 설정
+        viewModel.getMonthlyMissions().observe(getViewLifecycleOwner(), missions -> {
+            if (missions != null) {
+                calendarAdapter.setMissionData(missions);
+                calendarAdapter.notifyDataSetChanged();
+            }
+        });
 
         return view;
     }
@@ -114,8 +115,8 @@ public class CalendarFragment extends Fragment {
         calendarView.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
 
         // ViewModel에서 선택된 년도와 월을 가져옵니다.
-        int selectedYear = viewModel.selectedYearPosition.getValue();
-        int selectedMonth = viewModel.selectedMonthPosition.getValue();
+        int selectedYear = viewModel.getSelectedYearPosition().getValue();
+        int selectedMonth = viewModel.getSelectedMonthPosition().getValue();
 
         Log.d("initView Month", String.valueOf(selectedMonth));
 
@@ -126,12 +127,15 @@ public class CalendarFragment extends Fragment {
 
     private void updateCalendar(MissionCalendarViewModel viewModel) {
         // ViewModel에서 선택된 년도와 월을 가져옵니다.
-        int selectedYear = viewModel.selectedYearPosition.getValue();
-        int selectedMonth = viewModel.selectedMonthPosition.getValue();
+        int selectedYear = viewModel.getSelectedYearPosition().getValue();
+        int selectedMonth = viewModel.getSelectedMonthPosition().getValue();
         Log.d("Update Month", String.valueOf(selectedMonth));
+
         // CalendarAdapter에 새로운 년도와 월을 설정하고 갱신
         calendarAdapter.setDate(selectedYear, selectedMonth);
         calendarAdapter.notifyDataSetChanged();
+
+        // ViewModel에서 API 호출하여 데이터 가져오기
+        viewModel.fetchMonthlyMissions(selectedYear, selectedMonth);
     }
 }
-

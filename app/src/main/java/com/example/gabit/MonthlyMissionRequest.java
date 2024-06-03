@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MonthlyMissionRequest {
     @SerializedName("userId")
-    private int userId;
+    private String userId;
 
     @SerializedName("year")
     private int year;
@@ -12,12 +12,18 @@ public class MonthlyMissionRequest {
     @SerializedName("month")
     private int month;
 
+    public MonthlyMissionRequest(String userId, int year, int month) {
+        this.userId = userId;
+        this.year = year;
+        this.month = month;
+    }
+
     // Getters and setters
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

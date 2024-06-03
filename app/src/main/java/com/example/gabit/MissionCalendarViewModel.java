@@ -2,60 +2,90 @@ package com.example.gabit;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class MissionCalendarViewModel extends ViewModel {
-    public final MutableLiveData<List<String>> yearList = new MutableLiveData<>();
-    public final MutableLiveData<List<String>> monthList = new MutableLiveData<>();
-    public final MutableLiveData<Integer> selectedYearPosition = new MutableLiveData<>();
-    public final MutableLiveData<Integer> selectedMonthPosition = new MutableLiveData<>();
+
+    private MutableLiveData<Integer> selectedYearPosition = new MutableLiveData<>();
+    private MutableLiveData<Integer> selectedMonthPosition = new MutableLiveData<>();
+
+    private MutableLiveData<List<String>> yearList = new MutableLiveData<>();
+    private MutableLiveData<List<String>> monthList = new MutableLiveData<>();
+
+    private MutableLiveData<List<Integer>> monthlyMissions = new MutableLiveData<>();
+
+    private MissionService missionService;
 
     public MissionCalendarViewModel() {
-        // 현재 연도와 월을 기본값으로 설정
+        missionService = new MissionService();
+
+        // 년도 목록 초기화
+        List<String> years = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
-        int currentMonth = calendar.get(Calendar.MONTH);
-
-        List<String> years = Arrays.asList("2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028");
-        List<String> months = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
-
+        for (int i = currentYear - 5; i <= currentYear + 5; i++) {
+            years.add(String.valueOf(i));
+        }
         yearList.setValue(years);
+
+        // 월 목록 초기화
+        List<String> months = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            months.add(String.valueOf(i));
+        }
         monthList.setValue(months);
-        selectedYearPosition.setValue(years.indexOf(String.valueOf(currentYear)));
-        selectedMonthPosition.setValue(months.indexOf(String.valueOf(currentMonth))) ; // 0부터 시작하므로 현재 월 그대로 사용
+    }
+
+    public LiveData<Integer> getSelectedYearPosition() {
+        return selectedYearPosition;
+    }
+
+    public LiveData<Integer> getSelectedMonthPosition() {
+        return selectedMonthPosition;
+    }
+
+    public LiveData<List<String>> getYearList() {
+        return yearList;
+    }
+
+    public LiveData<List<String>> getMonthList() {
+        return monthList;
+    }
+
+    public LiveData<List<Integer>> getMonthlyMissions() {
+        return monthlyMissions;
     }
 
     public void updateCalendar_model() {
-        // 선택된 연도와 월을 사용하여 달력을 업데이트
-        String selectedYear = getSelectedYear();
-        String selectedMonth = getSelectedMonth();
+        // ViewModel에서 선택된 년도와 월을 가져옵니다.
+        int selectedYear = selectedYearPosition.getValue();
+        int selectedMonth = selectedMonthPosition.getValue();
+        Log.d("Update Month", String.valueOf(selectedMonth));
+        // CalendarAdapter에 새로운 년도와 월을 설정하고 갱신
+        // calendarAdapter.setDate(selectedYear, selectedMonth);
+        // calendarAdapter.notifyDataSetChanged();
     }
 
-    public String getSelectedYear() {
-        Integer position = selectedYearPosition.getValue();
-        List<String> years = yearList.getValue();
-        if (position != null && years != null && position >= 0 && position < years.size()) {
-            return years.get(position);
-        } else {
-            // 유효하지 않은 경우 기본값 또는 예외 처리
-            return "Invalid Year";
-        }
-    }
+    public void fetchMonthlyMissions(int year, int month) {
+        // API 호출하여 월별 미션 데이터 가져오기
+        missionService.getMonthlyMissions(new MonthlyMissionRequest("3", year, month), new MissionService.MonthlyMissionCallback() {
+            @Override
+            public void onSuccess(List<Integer> missions) {
+                monthlyMissions.setValue(missions);
+            }
 
-    public String getSelectedMonth() {
-        Integer position = selectedMonthPosition.getValue();
-        List<String> months = monthList.getValue();
-        if (position != null && months != null && position >= 0 && position < months.size()) {
-            return months.get(position);
-        } else {
-            // 유효하지 않은 경우 기본값 또는 예외 처리
-            return "Invalid Month";
-        }
+            @Override
+            public void onError(String errorMessage) {
+                Log.e("MissionCalendarViewModel", "Error fetching monthly missions: " + errorMessage);
+            }
+        });
     }
 
     public void setSelectedYearPosition(int position) {
