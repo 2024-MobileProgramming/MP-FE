@@ -2,7 +2,6 @@ package com.example.gabit;
 
 public class Mission {
     private int missionId;
-    private String nickname;
     private String missionTitle;
     private String missionShortDescription;
     private  boolean imageProofed;
@@ -10,13 +9,11 @@ public class Mission {
 
     public Mission(
             int missionId,
-            String nickname,
             String missionTitle,
             String missionShortDescription,
             boolean imageProofed,
             int verificatedCount) {
         this.missionId = missionId;
-        this.nickname = nickname;
         this.missionTitle = missionTitle;
         this.missionShortDescription = missionShortDescription;
         this.imageProofed = imageProofed;
@@ -26,8 +23,6 @@ public class Mission {
     public int getMissionId() {
         return missionId;
     }
-
-    public String getNickname() { return nickname; }
 
     public String getMissionTitle() {
         return missionTitle;

@@ -26,5 +26,5 @@ public interface ApiService {
     Call<MonthlyMissionResponse> getMonthlyMissions(@Body MonthlyMissionRequest request);
 
     @POST("/mission/proof")
-    Call<ApiResponse> proofMission(@Body ProofRequest request);
+    Call<OneMissionActivity.MissionDetailResponse> proofMission(@Body ProofRequest request);
 }

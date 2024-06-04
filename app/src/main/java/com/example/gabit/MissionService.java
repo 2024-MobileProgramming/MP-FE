@@ -105,11 +105,11 @@ public class MissionService {
         });
     }
 
-    public void proofMission(ProofRequest request, final ApiCallback callback) {
-        Call<ApiResponse> call = apiService.proofMission(request);
-        call.enqueue(new Callback<ApiResponse>() {
+    public void proofMission(ProofRequest request, final MissionDetailResponseCallback callback) {
+        Call<OneMissionActivity.MissionDetailResponse> call = apiService.proofMission(request);
+        call.enqueue(new Callback<OneMissionActivity.MissionDetailResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(@NonNull Call<OneMissionActivity.MissionDetailResponse> call, Response<OneMissionActivity.MissionDetailResponse> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess();
                 } else {
@@ -118,7 +118,7 @@ public class MissionService {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<OneMissionActivity.MissionDetailResponse> call, @NonNull Throwable t) {
                 callback.onError("API call failed: " + t.getMessage());
             }
         });
@@ -131,6 +131,11 @@ public class MissionService {
 
     public interface MissionDetailCallback {
         void onSuccess(OneMissionActivity.MissionDetail missionDetail);
+        void onError(String errorMessage);
+    }
+
+    public interface MissionDetailResponseCallback {
+        void onSuccess();
         void onError(String errorMessage);
     }
 

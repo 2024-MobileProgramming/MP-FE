@@ -12,8 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.annotations.SerializedName;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
+import com.kakao.sdk.common.util.Utility;
 import com.kakao.sdk.user.UserApiClient;
 
 import kotlin.Unit;
@@ -35,27 +37,38 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // 카카오 SDK 초기화
-        String kakaoAppKey = BuildConfig.KAKAO_API_KEY;
-        KakaoSdk.init(this, kakaoAppKey);
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString(KEY_USER_ID, null);
+        String nickname = sharedPreferences.getString(KEY_USER_NICKNAME, null);
 
-        ImageButton loginKakaoButton = findViewById(R.id.btn_kakaoLogin);
-        loginKakaoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startKaKaoLogin();
-            }
-        });
+        if (userId != null && nickname != null) {
+            navigateToMainActivity();
+        } else {
+            // 카카오 SDK 초기화
+            String kakaoAppKey = BuildConfig.KAKAO_API_KEY;
+            KakaoSdk.init(this, kakaoAppKey);
+
+            ImageButton loginKakaoButton = findViewById(R.id.btn_kakaoLogin);
+            loginKakaoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startKaKaoLogin();
+                }
+            });
+        }
     }
 
     private void startKaKaoLogin() {
+        String keyHash = Utility.INSTANCE.getKeyHash(this);
+        Log.e("Key", "keyHash: " + keyHash);
+
         Function2<OAuthToken, Throwable, Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
             public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
                 if (oAuthToken != null) {
                     // 로그인 성공
                     Log.d("KakaoLogin", "Login success");
-                    navigateToMainActivity();
+                    fetchUserInfo();
                 } else {
                     // 로그인 실패
                     Log.e("KakaoLogin", "Login failed", throwable);
@@ -93,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void sendUserInfoToBackend(String nickname, String email) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.POSTMAN_SERVER_BASE_URL)
+                .baseUrl(BuildConfig.SERVER_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -106,9 +119,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {
                 if (response.isSuccessful()) {
                     UserResponse userResponse = response.body();
-                    if (userResponse != null) {
-                        Log.i(TAG, "유저 ID: " + userResponse.getUserId());
-                        saveUserIdToLocal(userResponse.getUserId(), nickname);
+                    Log.d("LoginActivity", "Response Body : " + userResponse);
+                    if (userResponse != null && userResponse.getData() != null) {
+                        Log.i(TAG, "유저 ID: " + userResponse.getData().getUserId());
+                        saveUserIdToLocal(String.valueOf(userResponse.getData().getUserId()), nickname);
                     }
                 } else {
                     Log.e(TAG, "서버 응답 오류: " + response.errorBody());
@@ -120,12 +134,11 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "유저 정보 전송 실패", t);
             }
         });
-
     }
 
     private void saveUserIdToLocal(String userId, String nickname) {
         SharedPreferences sharedPref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor= sharedPref.edit();
+        SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(KEY_USER_ID, userId);
         editor.putString(KEY_USER_NICKNAME, nickname);
         editor.apply();
@@ -142,7 +155,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static class UserRequest {
+        @SerializedName("nickname")
         private String nickname;
+
+        @SerializedName("email")
         private String email;
 
         public UserRequest(String nickname, String email) {
@@ -150,35 +166,55 @@ public class LoginActivity extends AppCompatActivity {
             this.email = email;
         }
 
-        public String getNickname() {
-            return nickname;
+        @NonNull
+        @Override
+        public String toString() {
+            return "UserRequest{" +
+                    "nickname='" + nickname + '\'' +
+                    ", email='" + email + '\'' +
+                    '}';
         }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
     }
 
     public static class UserResponse {
-        private final String userId;
+        @SerializedName("status")
+        public int status;
 
-        public UserResponse(String userId) {
-            this.userId = userId;
+        @SerializedName("message")
+        public String message;
+
+        @SerializedName("data")
+        public User data;
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "UserResponse{" +
+                    "status=" + status +
+                    ", message='" + message + '\'' +
+                    ", data=" + data +
+                    '}';
         }
 
-        public String getUserId() {
+        public User getData() {
+            return data;
+        }
+    }
+
+    public static class User {
+        @SerializedName("userId")
+        private int userId;
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "User{" +
+                    "userId=" + userId +
+                    '}';
+        }
+
+        public int getUserId() {
             return userId;
         }
-
     }
 }
-

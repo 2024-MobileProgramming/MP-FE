@@ -40,6 +40,11 @@ android {
     viewBinding{
         enable = true
     }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding  = true
+    }
 }
 
 dependencies {
@@ -63,4 +68,3 @@ dependencies {
 
     debugImplementation("androidx.fragment:fragment-testing:1.3.6")
 }
-

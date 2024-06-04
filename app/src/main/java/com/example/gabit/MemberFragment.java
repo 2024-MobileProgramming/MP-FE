@@ -74,6 +74,20 @@ public class MemberFragment extends Fragment {
             TextView userNickname = memberView.findViewById(R.id.MemberNickname);
             userNickname.setText(member.getUserName());
 
+            memberView.setOnClickListener(v -> {
+                MissionListFragment missionListFragment = new MissionListFragment();
+                Bundle bundle = new Bundle();
+
+                bundle.putString("userId", String.valueOf(member.getUserId()));
+                bundle.putString("userName", member.getUserName());
+                missionListFragment.setArguments(bundle);
+
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, missionListFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+
             memberListLayout.addView(memberView);
         }
     }
