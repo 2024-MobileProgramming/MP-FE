@@ -23,17 +23,35 @@ Providing various campaign information and encouraging participation
 ### Activity
 
 - Login (Kakao Login)
-  <img width="435" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/2d84ba36-1f39-4436-8a2e-1216e4a0f0be">
+
+</br>
+  
+<img width="435" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/2d84ba36-1f39-4436-8a2e-1216e4a0f0be">
+
+</br>
 
 - Mission List & Random Friends
-  <img width="347" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/1b0049f9-0bc5-43d5-bf6a-271538751548">
-  <img width="347" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/1b109567-26ce-42f0-bec1-f5268f2799b1">
+
+</br>
+
+<img width="347" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/1b0049f9-0bc5-43d5-bf6a-271538751548">
+<img width="347" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/1b109567-26ce-42f0-bec1-f5268f2799b1">
+
+</br>
 
 - Navigation bar (View Binding)
-  <img width="597" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/e6d334e9-5506-40b4-b4ac-505cc650c691">
+
+</br>
+
+<img width="597" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/e6d334e9-5506-40b4-b4ac-505cc650c691">
+
+</br>
 
 - Missoin Verification
-  <img width="342" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/d69b7490-fb30-47fe-b8b1-a20e8e3aa088">
+
+</br>
+
+<img width="342" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/d69b7490-fb30-47fe-b8b1-a20e8e3aa088">
   <img width="342" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/95031627-eeac-4ef6-8e21-08c10e030c57">
 
 - Mission Calendar
