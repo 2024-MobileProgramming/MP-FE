@@ -1,6 +1,6 @@
-![image](https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/fac09274-8865-43f7-bc1b-a386f1cc4452)![image](https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/2379fac8-047c-4eb1-bb13-f198748838d7)![image](https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/05ce4adf-beaa-494c-8065-d9bf783265ac)![image](https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/eb97e52a-e7f6-4a14-a325-b9fb83bb1685)![image](https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/e201a3f7-ab8e-4d97-b557-d76aba1f0af3)# Gabbit
+# Gabbit
 
-*** Gachon Univ. 2024 Mobile Programming Team Project - Team 2 ***
+***Gachon Univ. 2024 Mobile Programming Team Project - Team 2***
 
 ---
 
