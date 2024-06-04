@@ -4,6 +4,18 @@
 
 ---
 
+## 🧡 FE 팀원 소개
+
+|                                                             강승민                                                              |                                     한해빈                                     |                                    조혜원                                     |
+| :-----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/139099089?s=96&v=4" width="120" /> | <img src="https://avatars.githubusercontent.com/u/99270060?v=4" width="120" /> | <img src="https://avatars.githubusercontent.com/u/101498350?v=4" width="120"> |
+|                                                             **FE**                                                              |                                     **FE**                                     |                                    **FE**                                     |
+|                                         [@Seungminin](https://github.com/orgs/2024-MobileProgramming/people/Seungminin)                                          |                  [@imfinethxunu](https://github.com/orgs/2024-MobileProgramming/people/imfinethxunu)                  |                 [@One-HyeWon](https://github.com/One-HyeWon)                  |
+
+<br />
+
+---
+
 ### MVP
 
 1. New mission Every Day
