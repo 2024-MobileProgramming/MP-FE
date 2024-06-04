@@ -70,7 +70,8 @@ Providing various campaign information and encouraging participation
 </br>
 
 <img width="342" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/d69b7490-fb30-47fe-b8b1-a20e8e3aa088">
-<img width="342" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/95031627-eeac-4ef6-8e21-08c10e030c57">
+<img width="244" alt="image" src="https://github.com/2024-MobileProgramming/MP-FE/assets/101498350/b2bcbb87-6dca-44a2-8a13-728796846fc8">
+
 
 </br>
 </br>
